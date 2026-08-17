@@ -36,7 +36,7 @@ async def build(request:Request,sid:str=Form(...)):
     answers={}
     for k,v in form.items():
         if k.startswith("q_"): answers[k[2:]]=str(v)
-    plan,augmented=await make_plan(sess["app_name"],sess["prompt"],answers)
+    plan,augmented=await make_plan(sess["app_name"],sess["prompt"],answers,sess["discovery"])
     project=await make_project(plan,augmented)
     slug,folder,zip_path=finalize_project(project,augmented,WORKSPACE)
     SESSIONS.pop(sid,None)

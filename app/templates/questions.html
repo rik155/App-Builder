@@ -1,6 +1,6 @@
 <!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/static/studio.css"><title>Nog een paar keuzes</title></head>
 <body><header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Ontdekkingsfase</small></div></header>
-<main><section class="question-head"><span class="eyebrow">VOORDAT IK BOUW</span><h1>Nog een paar slimme vragen</h1><p>{{ summary }}</p></section>
+<main><section class="question-head"><span class="eyebrow">VOORDAT IK BOUW</span><h1>Ik wil eerst je proces begrijpen</h1><p>{{ summary }}</p></section>
 {% if features %}<section class="suggestions"><h2>Dit past waarschijnlijk goed bij je app</h2><div class="featuregrid">{% for f in features %}<div class="feature"><strong>{{ f.name }}</strong><span>{{ f.description }}</span></div>{% endfor %}</div></section>{% endif %}
 <form action="/build" method="post"><input type="hidden" name="sid" value="{{ sid }}">
 <section class="questions">{% for q in questions %}<div class="qcard"><div class="qnum">{{ loop.index }}</div><div class="qcontent"><label>{{ q.question }}</label>{% if q.why %}<p>{{ q.why }}</p>{% endif %}

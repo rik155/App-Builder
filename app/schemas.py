@@ -20,9 +20,19 @@ class ClarifyingQuestion(BaseModel):
     required: bool = True
     recommended_answer: Optional[str] = None
 
+class ContextProfile(BaseModel):
+    industry: str = ""
+    target_users: List[str] = Field(default_factory=list)
+    core_goal: str = ""
+    core_workflow: List[str] = Field(default_factory=list)
+    important_objects: List[str] = Field(default_factory=list)
+    possible_integrations: List[str] = Field(default_factory=list)
+    risks_or_constraints: List[str] = Field(default_factory=list)
+
 class DiscoveryResult(BaseModel):
     summary: str
     detected_app_type: str
+    context: ContextProfile = Field(default_factory=ContextProfile)
     suggested_features: List[FeatureSpec] = Field(default_factory=list)
     questions: List[ClarifyingQuestion] = Field(default_factory=list)
     assumptions: List[str] = Field(default_factory=list)
