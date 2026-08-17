@@ -1,24 +1,19 @@
-# AI App Studio V4
+# AI App Studio V5
 
-Dit is de eerste versie die niet meer alleen uit vaste formuliertemplates bestaat.
+V5 voegt een discovery-fase toe.
 
-## Hoe werkt het?
-1. Prompt invoeren.
-2. AI maakt een product-/UX-plan.
-3. AI genereert HTML, CSS en JavaScript.
-4. Direct live preview.
-5. Downloadbare FastAPI/Render ZIP.
+Flow:
+1. Gebruiker beschrijft een app.
+2. AI herkent het soort app.
+3. AI stelt 2-6 gerichte vragen over functies die logisch bij dat type app passen.
+4. Antwoorden worden meegenomen in het bouwplan.
+5. AI genereert de app.
+6. Live preview + ZIP.
 
-## AI aansluiten
-Kopieer `.env.example` naar je Render Environment Variables:
+Met `AI_API_KEY` gebruikt V5 een OpenAI-compatible model voor discovery, planning en codegeneratie.
+Zonder key gebruikt hij de ingebouwde slimme fallback.
 
-- `AI_API_KEY`
-- `AI_BASE_URL`
-- `AI_MODEL`
-
-De backend verwacht een OpenAI-compatible `/chat/completions` endpoint.
-
-Zonder API-key blijft de builder werken in fallback-modus. De fallback kan o.a. offertegeneratoren, games, voorraadapps en formulieren maken.
-
-## Render
-Upload deze map naar GitHub en maak er een bestaande Docker Web Service van.
+Environment:
+- AI_API_KEY
+- AI_BASE_URL=https://api.openai.com/v1
+- AI_MODEL=gpt-5-mini

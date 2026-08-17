@@ -1,22 +1,5 @@
-<!doctype html>
-<html lang="nl"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="/static/studio.css"><title>AI App Studio</title>
-</head><body>
-<header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Van idee naar werkende app</small></div><div class="status {% if has_ai %}online{% endif %}">{% if has_ai %}AI verbonden{% else %}Fallback-modus{% endif %}</div></header>
-<main>
-<section class="intro">
-<div><span class="eyebrow">V4 · GENERATIVE</span><h1>Bouw wat je beschrijft.</h1><p>Geen vaste werkbon-template meer. Beschrijf een offertegenerator, game, dashboard, website, planner of iets compleet anders.</p></div>
-<div class="orb">✦</div>
-</section>
-<section class="composer">
-<form action="/build" method="post">
-<label>Naam van je app<input name="app_name" placeholder="Bijv. Slimme Offerte Studio" required></label>
-<label>Wat wil je laten bouwen?<textarea name="prompt" rows="9" placeholder="Bijv. Maak een moderne offertegenerator voor een schildersbedrijf. Ik wil klanten kiezen, meerdere regels met aantal en prijs toevoegen, btw automatisch berekenen, totalen zien en de offerte kunnen printen als PDF. Gebruik donkerblauw met een helder blauw accent." required></textarea></label>
-<div class="ideas"><span>Offertegenerator</span><span>Memory game</span><span>CRM</span><span>Planner</span><span>Dashboard</span><span>Calculator</span><span>Voorraad</span><span>Website</span></div>
-<button class="build" type="submit"><span>✦</span> App bouwen</button>
-</form>
-</section>
-<section class="how"><div><b>1</b><span>AI maakt een plan</span></div><div><b>2</b><span>AI schrijft de app</span></div><div><b>3</b><span>Direct live preview</span></div></section>
-</main>
-</body></html>
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/static/studio.css"><title>AI App Studio V5</title></head>
+<body><header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Denkt eerst, bouwt daarna</small></div><div class="status {% if has_ai %}online{% endif %}">{% if has_ai %}AI verbonden{% else %}Fallback-modus{% endif %}</div></header>
+<main><section class="intro"><div><span class="eyebrow">V5 · DISCOVERY</span><h1>Vertel je idee.</h1><p>De builder stelt eerst slimme vragen over functies die bij jouw idee passen. Pas daarna wordt de app gebouwd.</p></div><div class="orb">?</div></section>
+<section class="composer"><form action="/discover" method="post"><label>Naam van je app<input name="app_name" required placeholder="Bijv. Offerte Pro"></label><label>Wat wil je maken?<textarea name="prompt" rows="9" required placeholder="Bijv. Maak een offertegenerator voor een schildersbedrijf met btw en meerdere regels."></textarea></label><button class="build" type="submit"><span>✦</span> Idee analyseren</button></form></section>
+<section class="how"><div><b>1</b><span>Idee analyseren</span></div><div><b>2</b><span>Slimme vragen beantwoorden</span></div><div><b>3</b><span>App bouwen</span></div></section></main></body></html>
