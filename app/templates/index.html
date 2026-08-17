@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/static/app.css">
+<title>Bedrijfsapp Builder V2</title>
+</head>
+<body>
+<header><div class="logo">AB</div><div><strong>Bedrijfsapp Builder</strong><small>Prompt → live app → download</small></div></header>
+<main>
+<section class="hero"><span class="pill">V2</span><h1>Bouw direct een app</h1><p>Beschrijf wat je nodig hebt. Na het bouwen kun je de app meteen openen en testen.</p></section>
+<form action="/build" method="post">
+<div class="card">
+<label>Naam van de app<input name="app_name" required placeholder="Bijv. Janssen Werkbon"></label>
+<label>Wat moet de app doen?<textarea name="prompt" rows="7" required placeholder="Maak een snelle werkbon-app voor monteurs met klant, adres, werkzaamheden, materialen en handtekening."></textarea></label>
+<div class="modules">
+<label><input type="checkbox" name="database" value="true"> Database</label>
+<label><input type="checkbox" name="excel" value="true"> Excel</label>
+<label><input type="checkbox" name="photos" value="true"> Foto's</label>
+<label><input type="checkbox" name="signature" value="true"> Handtekening</label>
+<label><input type="checkbox" name="barcode" value="true"> Barcode</label>
+<label><input type="checkbox" name="pwa" value="true" checked> iPhone/PWA</label>
+<label><input type="checkbox" name="email" value="true"> E-mail</label>
+</div>
+</div>
+<button class="primary" type="submit">App bouwen</button>
+</form>
+</main>
+</body>
+</html>

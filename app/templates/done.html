@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/static/app.css">
+<title>App klaar</title>
+</head>
+<body>
+<header><div class="logo">AB</div><div><strong>Bedrijfsapp Builder</strong><small>App klaar</small></div></header>
+<main>
+<section class="done-card">
+<div class="check">✓</div>
+<h1>{{ app_name }} is klaar</h1>
+<p>Je kunt hem nu direct openen en testen. De ZIP blijft beschikbaar voor GitHub/Render.</p>
+<a class="primary linkbtn" href="/apps/{{ slug }}" target="_blank">Open app</a>
+<a class="secondary linkbtn" href="/download/{{ slug }}">Download ZIP</a>
+<a class="textlink" href="/">Nog een app bouwen</a>
+</section>
+</main>
+</body>
+</html>
