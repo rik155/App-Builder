@@ -1,13 +1,24 @@
-# Smart App Builder V3
+# AI App Studio V4
 
-V3 gebruikt meerdere app-families in plaats van één standaardformulier:
-- Werkbon/formulier
-- Voorraad
-- Dashboard
-- Calculator
-- Landing page
-- Games: clicker, quiz, memory, reactiespel
+Dit is de eerste versie die niet meer alleen uit vaste formuliertemplates bestaat.
 
-Na bouwen krijg je direct een live app en een ZIP.
+## Hoe werkt het?
+1. Prompt invoeren.
+2. AI maakt een product-/UX-plan.
+3. AI genereert HTML, CSS en JavaScript.
+4. Direct live preview.
+5. Downloadbare FastAPI/Render ZIP.
 
-Belangrijk: dit is nog geen volledig taalmodel. Het is een slimme lokale planner. Voor echt vrije codegeneratie kunnen we later een LLM/API koppelen.
+## AI aansluiten
+Kopieer `.env.example` naar je Render Environment Variables:
+
+- `AI_API_KEY`
+- `AI_BASE_URL`
+- `AI_MODEL`
+
+De backend verwacht een OpenAI-compatible `/chat/completions` endpoint.
+
+Zonder API-key blijft de builder werken in fallback-modus. De fallback kan o.a. offertegeneratoren, games, voorraadapps en formulieren maken.
+
+## Render
+Upload deze map naar GitHub en maak er een bestaande Docker Web Service van.

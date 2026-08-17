@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="nl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a"><link rel="stylesheet" href="/static/app.css"><link rel="manifest" href="/static/manifest.json">
+<title>Offerte Pro</title></head>
+<body><header><div class="brandmark">◆</div><div><strong>Offerte Pro</strong><small>offertegenerator</small></div><nav><a href="#">Home</a><a href="#">Instellingen</a></nav></header>
+<main>
+<section class="hero">
+  <div>
+    <span class="eyebrow">Nieuwe offerte</span>
+    <h1>Maak in minuten een nette offerte</h1>
+    <p>Voeg klantgegevens en regels toe. BTW en totaal worden direct berekend.</p>
+  </div>
+  <button id="printBtn" class="ghost">Print / PDF</button>
+</section>
+
+<section class="layout">
+  <div class="panel">
+    <h2>Klant</h2>
+    <div class="two">
+      <label>Naam<input id="customer" placeholder="Klantnaam"></label>
+      <label>Datum<input type="date" id="date"></label>
+    </div>
+    <label>Adres<input id="address" placeholder="Straat, plaats"></label>
+  </div>
+
+  <div class="panel">
+    <div class="section-head"><h2>Offerte regels</h2><button id="addRow" class="small">+ Regel</button></div>
+    <div id="rows"></div>
+    <div class="totals">
+      <div><span>Subtotaal</span><strong id="subtotal">€ 0,00</strong></div>
+      <div><span>BTW</span><strong id="vat">€ 0,00</strong></div>
+      <div class="grand"><span>Totaal</span><strong id="total">€ 0,00</strong></div>
+    </div>
+  </div>
+</section>
+</main><script src="/static/app.js"></script></body></html>

@@ -1,13 +1,22 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/static/app.css"><title>Smart App Builder V3</title></head><body>
-<header><div class="logo">AI</div><div><strong>Smart App Builder</strong><small>Niet alleen formulieren meer</small></div></header>
-<main><section class="hero"><span>V3 SMART</span><h1>Wat wil je maken?</h1><p>Beschrijf het gewoon. De builder kiest nu zelf een passend soort app.</p></section>
-<form action="/build" method="post"><div class="card">
-<label>Naam<input name="app_name" required placeholder="Bijv. Reactiespel"></label>
-<label>Prompt<textarea name="prompt" rows="8" required placeholder="Bijv. Maak een donker reactiespel voor iPhone. Na een willekeurige tijd moet ik zo snel mogelijk klikken."></textarea></label>
-<div class="chips"><span>Werkbon</span><span>Voorraad</span><span>Dashboard</span><span>Calculator</span><span>Website</span><span>Clicker</span><span>Quiz</span><span>Memory</span><span>Reactiespel</span></div>
-<h3>Extra's</h3><div class="modules">
-<label><input type="checkbox" name="database" value="true"> Database</label><label><input type="checkbox" name="excel" value="true"> Excel</label>
-<label><input type="checkbox" name="photos" value="true"> Foto's</label><label><input type="checkbox" name="signature" value="true"> Handtekening</label>
-<label><input type="checkbox" name="barcode" value="true"> Barcode</label><label><input type="checkbox" name="pwa" value="true" checked> PWA</label>
-<label><input type="checkbox" name="email" value="true"> E-mail</label>
-</div></div><button class="primary" type="submit">Slim bouwen</button></form></main></body></html>
+<!doctype html>
+<html lang="nl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/static/studio.css"><title>AI App Studio</title>
+</head><body>
+<header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Van idee naar werkende app</small></div><div class="status {% if has_ai %}online{% endif %}">{% if has_ai %}AI verbonden{% else %}Fallback-modus{% endif %}</div></header>
+<main>
+<section class="intro">
+<div><span class="eyebrow">V4 · GENERATIVE</span><h1>Bouw wat je beschrijft.</h1><p>Geen vaste werkbon-template meer. Beschrijf een offertegenerator, game, dashboard, website, planner of iets compleet anders.</p></div>
+<div class="orb">✦</div>
+</section>
+<section class="composer">
+<form action="/build" method="post">
+<label>Naam van je app<input name="app_name" placeholder="Bijv. Slimme Offerte Studio" required></label>
+<label>Wat wil je laten bouwen?<textarea name="prompt" rows="9" placeholder="Bijv. Maak een moderne offertegenerator voor een schildersbedrijf. Ik wil klanten kiezen, meerdere regels met aantal en prijs toevoegen, btw automatisch berekenen, totalen zien en de offerte kunnen printen als PDF. Gebruik donkerblauw met een helder blauw accent." required></textarea></label>
+<div class="ideas"><span>Offertegenerator</span><span>Memory game</span><span>CRM</span><span>Planner</span><span>Dashboard</span><span>Calculator</span><span>Voorraad</span><span>Website</span></div>
+<button class="build" type="submit"><span>✦</span> App bouwen</button>
+</form>
+</section>
+<section class="how"><div><b>1</b><span>AI maakt een plan</span></div><div><b>2</b><span>AI schrijft de app</span></div><div><b>3</b><span>Direct live preview</span></div></section>
+</main>
+</body></html>

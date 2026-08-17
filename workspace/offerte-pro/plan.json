@@ -1,0 +1,45 @@
+{
+  "app_name": "Offerte Pro",
+  "app_type": "offertegenerator",
+  "visual_style": "clean, modern, professional",
+  "color_direction": "dark navy with a bright accent",
+  "pages": [
+    {
+      "name": "Dashboard",
+      "route": "/",
+      "purpose": "Overzicht van offertes en snelle acties"
+    },
+    {
+      "name": "Nieuwe offerte",
+      "route": "/offerte",
+      "purpose": "Offerte opstellen"
+    },
+    {
+      "name": "Klanten",
+      "route": "/klanten",
+      "purpose": "Klanten beheren"
+    }
+  ],
+  "features": [
+    {
+      "name": "Offerte regels",
+      "description": "Meerdere regels met omschrijving, aantal, prijs en btw"
+    },
+    {
+      "name": "Automatische totalen",
+      "description": "Subtotaal, btw en eindtotaal"
+    },
+    {
+      "name": "PDF/print",
+      "description": "Printvriendelijke offerte"
+    }
+  ],
+  "data_entities": [
+    "Klant",
+    "Offerte",
+    "OfferteRegel"
+  ],
+  "notes": [
+    "Fallback planner gebruikt omdat geen AI-resultaat beschikbaar was."
+  ]
+}
