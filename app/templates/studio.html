@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="nl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="/static/studio.css"><title>{{ app_name }} · AI App Studio</title>
+</head>
+<body class="builder-shell">
+<div class="studio-layout">
+  <aside class="chat-panel">
+    <div class="chat-head">
+      <div class="mark smallmark">A</div>
+      <div><strong>AI App Studio</strong><small>{{ app_name }}</small></div>
+      <div class="mini-status {% if ai_connected %}online{% endif %}">{% if ai_connected %}AI{% else %}Local{% endif %}</div>
+    </div>
+
+    <div class="chat-scroll" id="chatScroll">
+      {% for m in messages %}
+      <div class="msg {{ m.role }}">
+        <div class="bubble">{{ m.text }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="quick-prompts">
+      <button onclick="fillPrompt('Maak het ontwerp cleaner en professioneler')">Cleaner</button>
+      <button onclick="fillPrompt('Maak de mobiele versie beter en eenvoudiger')">Mobiel</button>
+      <button onclick="fillPrompt('Voeg een dashboard toe met belangrijke statistieken')">Dashboard</button>
+      <button onclick="fillPrompt('Maak de kleuren en typografie professioneler')">Design</button>
+    </div>
+
+    <form class="chat-form" action="/studio/{{ sid }}/message" method="post">
+      <textarea id="instruction" name="instruction" rows="3" required placeholder="Wat wil je veranderen?"></textarea>
+      <button class="send" type="submit">Aanpassen ↗</button>
+    </form>
+  </aside>
+
+  <section class="preview-panel">
+    <div class="preview-head">
+      <div>
+        <strong>{{ app_name }}</strong>
+        <small>Live preview · versie {{ version }}</small>
+      </div>
+      <div class="preview-actions">
+        <button onclick="reloadFrame()">↻ Vernieuwen</button>
+        <a href="/apps/{{ slug }}" target="_blank">Open apart</a>
+        <a class="download-link" href="/download/{{ slug }}">ZIP</a>
+      </div>
+    </div>
+
+    <div class="devicebar">
+      <button class="active" data-w="100%">Desktop</button>
+      <button data-w="820px">Tablet</button>
+      <button data-w="390px">iPhone</button>
+    </div>
+
+    <div class="preview-canvas">
+      <iframe id="previewFrame" src="/apps/{{ slug }}?v={{ version }}"></iframe>
+    </div>
+  </section>
+</div>
+
+<script>
+const frame=document.getElementById('previewFrame');
+const scroll=document.getElementById('chatScroll');
+scroll.scrollTop=scroll.scrollHeight;
+function fillPrompt(t){const a=document.getElementById('instruction');a.value=t;a.focus()}
+function reloadFrame(){frame.src=frame.src.split('?')[0]+'?v='+Date.now()}
+document.querySelectorAll('.devicebar button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.devicebar button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    frame.style.width=b.dataset.w;
+  };
+});
+</script>
+</body></html>

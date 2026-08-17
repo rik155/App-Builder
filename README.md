@@ -1,19 +1,14 @@
-# AI App Studio V7 — Software Architect
+# AI App Studio V8 — Live Split Studio
 
-Belangrijkste wijzigingen:
-- interne discovery-context wordt nooit meer in de gebouwde UI gezet;
-- codegenerator krijgt alleen een schoon bouwplan;
-- architectuurcheck vóór het bouwen:
-  1. branche
-  2. gebruikers
-  3. workflow
-  4. schermen
-  5. data
-  6. integraties
-  7. visuele stijl
-- domeinspecifieke fallback-schermen voor planning, dierenarts, games, voorraad en offertes;
-- live preview + ZIP;
-- met AI_API_KEY wordt discovery/planning/codegeneratie door een OpenAI-compatible model uitgevoerd.
+Nieuwe workflow:
+- links een permanente chat met de AI;
+- rechts een live preview van de app;
+- iedere nieuwe instructie past het bouwplan aan en genereert een nieuwe versie;
+- desktop/tablet/iPhone preview;
+- quick prompts voor design, mobiel en dashboard;
+- ZIP blijft altijd downloadbaar.
+
+Met AI_API_KEY gebruikt de studio een OpenAI-compatible model voor discovery, planning, iteratieve refinement en code generation.
 
 Environment:
 AI_API_KEY=

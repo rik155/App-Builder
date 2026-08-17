@@ -140,3 +140,43 @@ async def make_project(plan):
     except Exception:
         # Fallback uses ONLY the clean plan, never raw discovery context.
         return fallback_project(plan)
+
+
+SYSTEM_REFINE = """You are the iterative software architect inside an AI app builder.
+You receive:
+- the current clean build plan
+- a new user instruction describing a requested change
+
+Update the build plan only where needed.
+Keep unrelated good decisions intact.
+Do not include raw chat history or internal reasoning in the plan.
+Return JSON only in the exact BuildPlan schema.
+The updated plan should be directly usable by the code generator."""
+
+async def refine_plan(current_plan, instruction):
+    try:
+        raw=_extract_json(await _chat([
+            {"role":"system","content":SYSTEM_REFINE},
+            {"role":"user","content":"CURRENT PLAN:\n"+current_plan.model_dump_json(indent=2)+"\n\nCHANGE REQUEST:\n"+instruction}
+        ]))
+        raw["app_name"]=current_plan.app_name
+        return BuildPlan.model_validate(raw)
+    except Exception:
+        # Local fallback: keep plan and record the requested refinement cleanly.
+        p=current_plan.model_copy(deep=True)
+        low=instruction.lower()
+        if any(x in low for x in ["donker","dark"]):
+            p.visual_style="dark, sleek, modern"
+            p.color_direction="charcoal, black and vivid accent"
+        elif any(x in low for x in ["licht","minimalistisch"]):
+            p.visual_style="light, minimal, spacious"
+            p.color_direction="white, soft gray and one accent color"
+        if "dashboard" in low and not any(x.name=="Dashboard" for x in p.pages):
+            from .schemas import PageSpec
+            p.pages.insert(0,PageSpec(name="Dashboard",route="/",purpose="Overzicht en snelle acties"))
+        if "foto" in low and not any("foto" in x.name.lower() for x in p.features):
+            from .schemas import FeatureSpec
+            p.features.append(FeatureSpec(name="Foto's",description="Foto's toevoegen en bekijken"))
+        p.notes=[x for x in p.notes if not x.startswith("Laatste wijziging:")]
+        p.notes.append("Laatste wijziging: "+instruction)
+        return p

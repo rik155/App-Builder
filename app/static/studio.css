@@ -10,3 +10,26 @@ main{max-width:1050px;margin:auto;padding:60px 22px 100px}.intro{display:flex;al
 
 .contextbox{max-width:850px;margin:0 auto 16px;display:grid;grid-template-columns:1fr 2fr 1.5fr;gap:10px}.contextbox>div{background:#11192b;border:1px solid #202d46;border-radius:18px;padding:15px}.contextbox span{display:block;color:#71819a;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.contextbox strong{display:block;margin-top:6px;color:#e8efff;line-height:1.35}.architecture{max-width:340px;margin:18px auto 0;background:#0d1424;border:1px solid #263550;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between}.architecture span{color:#8493aa}.architecture strong{color:#4ade80;font-size:21px}.how{grid-template-columns:repeat(4,1fr)}
 @media(max-width:720px){.contextbox{grid-template-columns:1fr}.how{grid-template-columns:1fr 1fr}}
+
+body.builder-shell{overflow:hidden;background:#0a1020}
+.studio-layout{height:100vh;display:grid;grid-template-columns:390px minmax(0,1fr);background:#0a1020}
+.chat-panel{min-width:0;background:#0d1424;border-right:1px solid #202c43;display:grid;grid-template-rows:auto 1fr auto auto;height:100vh}
+.chat-head{height:70px;padding:0 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #202c43;background:#0d1424}
+.smallmark{width:38px;height:38px}.chat-head strong{display:block}.chat-head small{display:block;color:#8392aa;margin-top:2px}.mini-status{margin-left:auto;padding:6px 8px;border-radius:999px;background:#2b2110;color:#fbbf24;font-size:11px;font-weight:900}.mini-status.online{background:#10301f;color:#4ade80}
+.chat-scroll{overflow-y:auto;padding:18px 14px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex}.msg.user{justify-content:flex-end}.msg.assistant{justify-content:flex-start}.bubble{max-width:88%;padding:12px 14px;border-radius:16px;line-height:1.45;font-size:14px}.msg.user .bubble{background:linear-gradient(135deg,#6d4aff,#3b82f6);color:#fff;border-bottom-right-radius:5px}.msg.assistant .bubble{background:#151f32;color:#d9e3f4;border:1px solid #22304a;border-bottom-left-radius:5px}
+.quick-prompts{padding:0 12px 10px;display:flex;gap:6px;flex-wrap:wrap}.quick-prompts button{border:1px solid #273550;background:#111a2d;color:#9eacc1;border-radius:999px;padding:7px 9px;font-size:11px;cursor:pointer}
+.chat-form{padding:12px;border-top:1px solid #202c43;background:#0d1424}.chat-form textarea{margin:0;width:100%;resize:none;background:#0a1120;color:#fff;border:1px solid #293952;border-radius:14px;padding:12px;outline:none}.chat-form textarea:focus{border-color:#6d5bf5;box-shadow:0 0 0 3px #6d5bf522}.send{margin-top:8px;width:100%;border:0;border-radius:13px;padding:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-weight:900;cursor:pointer}
+.preview-panel{min-width:0;height:100vh;display:grid;grid-template-rows:70px 44px 1fr;background:#eef3f8}
+.preview-head{padding:0 16px;display:flex;align-items:center;background:#0f172a;color:#fff;border-bottom:1px solid #263247}.preview-head strong{display:block}.preview-head small{display:block;color:#8290a5;margin-top:2px}.preview-actions{margin-left:auto;display:flex;gap:7px}.preview-actions button,.preview-actions a{border:1px solid #30405b;background:#162138;color:#c9d5e7;border-radius:9px;padding:8px 10px;text-decoration:none;font-size:12px;cursor:pointer}.preview-actions .download-link{background:#2563eb;color:#fff;border-color:#2563eb}
+.devicebar{display:flex;align-items:center;justify-content:center;gap:6px;background:#e8eef4;border-bottom:1px solid #d1dce7}.devicebar button{border:0;background:transparent;color:#68788b;padding:7px 10px;border-radius:8px;font-size:12px;cursor:pointer}.devicebar button.active{background:#fff;color:#172b45;box-shadow:0 2px 8px #00000010}
+.preview-canvas{overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:18px;background:radial-gradient(circle at top,#f8fbfd,#e6edf4)}
+.preview-canvas iframe{display:block;width:100%;height:calc(100vh - 150px);border:0;border-radius:14px;background:#fff;box-shadow:0 12px 44px rgba(17,33,52,.18);transition:width .2s ease}
+.home-main{max-width:1050px}
+@media(max-width:900px){
+  body.builder-shell{overflow:auto}
+  .studio-layout{height:auto;min-height:100vh;grid-template-columns:1fr;grid-template-rows:auto 70vh}
+  .chat-panel{height:60vh;grid-template-rows:auto 1fr auto auto}
+  .preview-panel{height:70vh}
+  .preview-canvas iframe{height:calc(70vh - 132px)}
+}
