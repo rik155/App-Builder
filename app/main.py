@@ -1,124 +1,92 @@
 
 from pathlib import Path
-import json, os, uuid, time
-from fastapi import FastAPI, Request, Form, HTTPException
-from fastapi.responses import HTMLResponse, FileResponse, Response, RedirectResponse
+import uuid,time,re,shutil
+from zipfile import ZipFile,ZIP_DEFLATED
+from fastapi import FastAPI,Request,Form,HTTPException
+from fastapi.responses import HTMLResponse,FileResponse,Response,RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from .product_engine import make_brief,make_app,qa,status
+from .schemas import ProductBrief,ModuleSpec
 
-from .ai_engine import discover, make_plan, make_project, refine_plan
-from .project_io import finalize_project
-
-app=FastAPI(title="AI App Studio V8")
+app=FastAPI(title="AI App Studio V13")
 app.mount("/static",StaticFiles(directory="app/static"),name="static")
 templates=Jinja2Templates(directory="app/templates")
 WORKSPACE=Path("workspace");WORKSPACE.mkdir(exist_ok=True)
 SESSIONS={}
 
-@app.get("/",response_class=HTMLResponse)
-def home(request:Request):
-    return templates.TemplateResponse("index.html",{"request":request,"has_ai":bool(os.getenv("AI_API_KEY","").strip())})
+def slug(v): return re.sub(r"[^a-zA-Z0-9_-]+","-",v.strip()).strip("-").lower() or "app"
 
-@app.post("/studio/start")
-async def studio_start(app_name:str=Form(...), prompt:str=Form(...)):
-    sid=uuid.uuid4().hex
-    discovery=await discover(app_name,prompt)
-    # Use recommended answers as sensible defaults for the first build.
-    answers={}
-    for q in discovery.questions:
-        if q.recommended_answer:
-            answers[q.id]=q.recommended_answer
-    plan=await make_plan(app_name,prompt,answers,discovery.model_dump())
-    project=await make_project(plan)
-    slug,folder,zip_path=finalize_project(project,prompt,WORKSPACE)
-    SESSIONS[sid]={
-        "app_name":app_name,
-        "slug":slug,
-        "prompt":prompt,
-        "discovery":discovery.model_dump(),
-        "plan":plan.model_dump(),
-        "messages":[
-            {"role":"user","text":prompt},
-            {"role":"assistant","text":"Eerste versie gebouwd. Zeg links wat je wilt veranderen; rechts zie je telkens de nieuwe versie."}
-        ],
-        "version":1,
-    }
+def save_project(brief,files,q):
+    s=slug(brief.app_name);folder=WORKSPACE/s
+    if folder.exists(): shutil.rmtree(folder)
+    (folder/"app"/"templates").mkdir(parents=True);(folder/"app"/"static").mkdir(parents=True)
+    by={f.path:f.content for f in files}
+    (folder/"app"/"__init__.py").write_text("",encoding="utf-8")
+    (folder/"app"/"templates"/"index.html").write_text(by["app/templates/index.html"],encoding="utf-8")
+    (folder/"app"/"static"/"app.css").write_text(by["app/static/app.css"],encoding="utf-8")
+    (folder/"app"/"static"/"app.js").write_text(by["app/static/app.js"],encoding="utf-8")
+    app_main="from fastapi import FastAPI, Request\\nfrom fastapi.responses import HTMLResponse\\nfrom fastapi.templating import Jinja2Templates\\nfrom fastapi.staticfiles import StaticFiles\\napp=FastAPI()\\napp.mount('/static',StaticFiles(directory='app/static'),name='static')\\ntemplates=Jinja2Templates(directory='app/templates')\\n@app.get('/',response_class=HTMLResponse)\\ndef home(request:Request): return templates.TemplateResponse('index.html',{'request':request})\\n"
+    (folder/"app"/"main.py").write_text(app_main,encoding="utf-8")
+    (folder/"requirements.txt").write_text("fastapi==0.115.0\\nuvicorn[standard]==0.30.6\\njinja2==3.1.4\\n",encoding="utf-8")
+    (folder/"product_brief.json").write_text(brief.model_dump_json(indent=2),encoding="utf-8")
+    zpath=WORKSPACE/(s+".zip")
+    with ZipFile(zpath,"w",ZIP_DEFLATED) as z:
+        for p in folder.rglob("*"):
+            if p.is_file(): z.write(p,p.relative_to(folder))
+    return s
+
+@app.get("/",response_class=HTMLResponse)
+async def home(request:Request):
+    return templates.TemplateResponse("index.html",{"request":request,"ollama":await status()})
+
+@app.post("/analyze",response_class=HTMLResponse)
+async def analyze(request:Request,app_name:str=Form(...),prompt:str=Form(...),mode:str=Form("turbo")):
+    t0=time.perf_counter();brief,_=await make_brief(app_name,prompt,mode);sid=uuid.uuid4().hex
+    SESSIONS[sid]={"app_name":app_name,"prompt":prompt,"mode":mode,"brief":brief.model_dump()}
+    return templates.TemplateResponse("review.html",{"request":request,"sid":sid,"brief":brief,"elapsed":round(time.perf_counter()-t0,1)})
+
+@app.post("/build/{sid}")
+async def build(sid:str,request:Request):
+    s=SESSIONS.get(sid)
+    if not s: raise HTTPException(404)
+    form=await request.form();brief=ProductBrief.model_validate(s["brief"]);enabled=set(form.getlist("module"))
+    for m in brief.modules: m.enabled=m.name in enabled
+    custom=str(form.get("custom_module","")).strip()
+    if custom: brief.modules.append(ModuleSpec(name=custom,description="Door gebruiker toegevoegd",priority="should",enabled=True))
+    t0=time.perf_counter();files=make_app(brief);q=qa(brief,files);slugv=save_project(brief,files,q)
+    s.update({"brief":brief.model_dump(),"slug":slugv,"qa":q.model_dump(),"elapsed":round(time.perf_counter()-t0,1),"version":1})
     return RedirectResponse(f"/studio/{sid}",status_code=303)
 
 @app.get("/studio/{sid}",response_class=HTMLResponse)
-def studio(request:Request,sid:str):
+async def studio(request:Request,sid:str):
     s=SESSIONS.get(sid)
-    if not s: raise HTTPException(404,"Studio-sessie niet gevonden")
-    return templates.TemplateResponse("studio.html",{
-        "request":request,
-        "sid":sid,
-        "app_name":s["app_name"],
-        "slug":s["slug"],
-        "messages":s["messages"],
-        "version":s["version"],
-        "ai_connected":bool(os.getenv("AI_API_KEY","").strip()),
-    })
+    if not s or "slug" not in s: raise HTTPException(404)
+    return templates.TemplateResponse("studio.html",{"request":request,"sid":sid,"app_name":s["app_name"],"slug":s["slug"],"qa":s["qa"],"elapsed":s["elapsed"],"version":s["version"]})
 
-@app.post("/studio/{sid}/message")
-async def studio_message(sid:str, instruction:str=Form(...)):
+@app.post("/studio/{sid}/module")
+async def module(sid:str,module:str=Form(...)):
     s=SESSIONS.get(sid)
     if not s: raise HTTPException(404)
-    instruction=instruction.strip()
-    if not instruction:
-        return RedirectResponse(f"/studio/{sid}",status_code=303)
-
-    from .schemas import BuildPlan
-    current=BuildPlan.model_validate(s["plan"])
-    updated=await refine_plan(current,instruction)
-    project=await make_project(updated)
-    slug,folder,zip_path=finalize_project(project,s["prompt"]+"\n\nLatest requested change:\n"+instruction,WORKSPACE)
-
-    s["plan"]=updated.model_dump()
-    s["slug"]=slug
-    s["messages"].append({"role":"user","text":instruction})
-    s["messages"].append({"role":"assistant","text":"Aangepast. Bekijk de live versie rechts en geef gerust de volgende wijziging door."})
-    s["version"]+=1
-    return RedirectResponse(f"/studio/{sid}",status_code=303)
-
-@app.post("/studio/{sid}/reset")
-async def studio_reset(sid:str):
-    s=SESSIONS.get(sid)
-    if not s: raise HTTPException(404)
-    discovery=await discover(s["app_name"],s["prompt"])
-    answers={q.id:q.recommended_answer for q in discovery.questions if q.recommended_answer}
-    plan=await make_plan(s["app_name"],s["prompt"],answers,discovery.model_dump())
-    project=await make_project(plan)
-    slug,folder,zip_path=finalize_project(project,s["prompt"],WORKSPACE)
-    s["plan"]=plan.model_dump()
-    s["slug"]=slug
-    s["messages"].append({"role":"assistant","text":"Teruggezet naar een nieuwe basisversie op basis van je oorspronkelijke idee."})
-    s["version"]+=1
+    brief=ProductBrief.model_validate(s["brief"]);module=module.strip()
+    if module and not any(m.name.lower()==module.lower() for m in brief.modules):
+        brief.modules.append(ModuleSpec(name=module,description="Toegevoegd vanuit studio",priority="should",enabled=True))
+    files=make_app(brief);q=qa(brief,files);slugv=save_project(brief,files,q)
+    s.update({"brief":brief.model_dump(),"slug":slugv,"qa":q.model_dump(),"elapsed":0.1,"version":s["version"]+1})
     return RedirectResponse(f"/studio/{sid}",status_code=303)
 
 @app.get("/apps/{slug}",response_class=HTMLResponse)
 def preview(slug:str):
     p=WORKSPACE/slug/"app"/"templates"/"index.html"
-    if not p.exists(): raise HTTPException(404)
-    html=p.read_text(encoding="utf-8")
-    html=html.replace('href="/static/app.css"',f'href="/apps/{slug}/static/app.css"')
-    html=html.replace('src="/static/app.js"',f'src="/apps/{slug}/static/app.js"')
-    html=html.replace('href="/static/manifest.json"',f'href="/apps/{slug}/static/manifest.json"')
+    html=p.read_text(encoding="utf-8").replace('href="/static/app.css"',f'href="/apps/{slug}/static/app.css"').replace('src="/static/app.js"',f'src="/apps/{slug}/static/app.js"')
     return HTMLResponse(html)
 
 @app.get("/apps/{slug}/static/{filename}")
 def asset(slug:str,filename:str):
-    allowed={"app.css":"text/css","app.js":"application/javascript","manifest.json":"application/manifest+json","sw.js":"application/javascript"}
-    if filename not in allowed: raise HTTPException(404)
-    p=WORKSPACE/slug/"app"/"static"/filename
-    if not p.exists(): raise HTTPException(404)
-    return Response(p.read_text(encoding="utf-8"),media_type=allowed[filename])
+    types={"app.css":"text/css","app.js":"application/javascript"};p=WORKSPACE/slug/"app"/"static"/filename
+    if filename not in types or not p.exists(): raise HTTPException(404)
+    return Response(p.read_text(encoding="utf-8"),media_type=types[filename])
 
 @app.get("/download/{slug}")
 def download(slug:str):
-    p=WORKSPACE/(slug+".zip")
-    if not p.exists(): raise HTTPException(404)
-    return FileResponse(p,media_type="application/zip",filename=p.name)
-
-@app.get("/health")
-def health():
-    return {"status":"ok","version":"8","ai_connected":bool(os.getenv("AI_API_KEY","").strip())}
+    p=WORKSPACE/(slug+".zip");return FileResponse(p,media_type="application/zip",filename=p.name)
