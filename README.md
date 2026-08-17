@@ -1,11 +1,13 @@
-# Bedrijfsapp Builder V2
+# Smart App Builder V3
 
-Na het bouwen krijg je:
-- **Open app**: live preview binnen dezelfde builder
-- **Download ZIP**: export voor GitHub/Render
+V3 gebruikt meerdere app-families in plaats van één standaardformulier:
+- Werkbon/formulier
+- Voorraad
+- Dashboard
+- Calculator
+- Landing page
+- Games: clicker, quiz, memory, reactiespel
 
-Lokaal starten:
-```bash
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --reload
-```
+Na bouwen krijg je direct een live app en een ZIP.
+
+Belangrijk: dit is nog geen volledig taalmodel. Het is een slimme lokale planner. Voor echt vrije codegeneratie kunnen we later een LLM/API koppelen.
