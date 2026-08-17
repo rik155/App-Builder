@@ -37,6 +37,16 @@ class DiscoveryResult(BaseModel):
     questions: List[ClarifyingQuestion] = Field(default_factory=list)
     assumptions: List[str] = Field(default_factory=list)
 
+class ArchitectureReview(BaseModel):
+    understands_industry: bool = True
+    understands_users: bool = True
+    understands_workflow: bool = True
+    understands_screens: bool = True
+    understands_data: bool = True
+    understands_integrations: bool = True
+    understands_visual_style: bool = True
+    notes: List[str] = Field(default_factory=list)
+
 class BuildPlan(BaseModel):
     app_name: str
     app_type: str
@@ -46,6 +56,7 @@ class BuildPlan(BaseModel):
     features: List[FeatureSpec] = Field(default_factory=list)
     data_entities: List[str] = Field(default_factory=list)
     notes: List[str] = Field(default_factory=list)
+    architecture_review: ArchitectureReview = Field(default_factory=ArchitectureReview)
 
 class GeneratedFile(BaseModel):
     path: str

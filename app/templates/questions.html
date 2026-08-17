@@ -1,12 +1,12 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/static/studio.css"><title>Nog een paar keuzes</title></head>
-<body><header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Ontdekkingsfase</small></div></header>
-<main><section class="question-head"><span class="eyebrow">VOORDAT IK BOUW</span><h1>Ik wil eerst je proces begrijpen</h1><p>{{ summary }}</p></section>
-{% if features %}<section class="suggestions"><h2>Dit past waarschijnlijk goed bij je app</h2><div class="featuregrid">{% for f in features %}<div class="feature"><strong>{{ f.name }}</strong><span>{{ f.description }}</span></div>{% endfor %}</div></section>{% endif %}
-<form action="/build" method="post"><input type="hidden" name="sid" value="{{ sid }}">
-<section class="questions">{% for q in questions %}<div class="qcard"><div class="qnum">{{ loop.index }}</div><div class="qcontent"><label>{{ q.question }}</label>{% if q.why %}<p>{{ q.why }}</p>{% endif %}
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/static/studio.css"><title>Ontdekkingsfase</title></head>
+<body><header><div class="mark">A</div><div><strong>AI App Studio</strong><small>Software architect</small></div></header>
+<main>
+<section class="question-head"><span class="eyebrow">IK BEGRIJP JE PROCES</span><h1>Nog een paar keuzes</h1><p>{{ summary }}</p></section>
+<section class="contextbox"><div><span>Branche</span><strong>{{ context.industry }}</strong></div><div><span>Hoofddoel</span><strong>{{ context.core_goal }}</strong></div><div><span>Gebruikers</span><strong>{{ context.target_users|join(', ') }}</strong></div></section>
+{% if features %}<section class="suggestions"><h2>Logische functies voor deze app</h2><div class="featuregrid">{% for f in features %}<div class="feature"><strong>{{ f.name }}</strong><span>{{ f.description }}</span></div>{% endfor %}</div></section>{% endif %}
+<form action="/build" method="post"><input type="hidden" name="sid" value="{{ sid }}"><section class="questions">
+{% for q in questions %}<div class="qcard"><div class="qnum">{{ loop.index }}</div><div class="qcontent"><label>{{ q.question }}</label>{% if q.why %}<p>{{ q.why }}</p>{% endif %}
 {% if q.type == 'choice' %}<div class="choices">{% for o in q.options %}<label class="choice"><input type="radio" name="q_{{ q.id }}" value="{{ o }}" {% if o == q.recommended_answer %}checked{% endif %}><span>{{ o }}</span></label>{% endfor %}</div>
 {% elif q.type == 'boolean' %}<div class="choices"><label class="choice"><input type="radio" name="q_{{ q.id }}" value="Ja" {% if q.recommended_answer == 'Ja' %}checked{% endif %}><span>Ja</span></label><label class="choice"><input type="radio" name="q_{{ q.id }}" value="Nee" {% if q.recommended_answer == 'Nee' %}checked{% endif %}><span>Nee</span></label></div>
-{% else %}<input name="q_{{ q.id }}" placeholder="{{ q.recommended_answer or 'Typ je antwoord...' }}" value="{{ q.recommended_answer or '' }}">{% endif %}
-</div></div>{% endfor %}</section>
-<button class="build" type="submit"><span>✦</span> Bouw mijn app</button></form>
-<a class="again" href="/">← Prompt aanpassen</a></main></body></html>
+{% else %}<input name="q_{{ q.id }}" value="{{ q.recommended_answer or '' }}" placeholder="Typ je antwoord...">{% endif %}</div></div>{% endfor %}
+</section><button class="build" type="submit"><span>✦</span> Maak bouwplan en bouw app</button></form><a class="again" href="/">← Prompt aanpassen</a></main></body></html>
