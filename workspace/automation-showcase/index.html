@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Automatisering voor vakbedrijven</title>
+  <meta name="description" content="Zie in 30 seconden hoe voorraadbeheer en digitale werkbonnen dagelijkse administratie automatiseren." />
+  <style>
+    :root{
+      --bg:#07101f;--panel:#0e1a2d;--panel2:#111f36;--line:#223654;--text:#f6f8fc;--muted:#9eb0c8;
+      --accent:#62e6a7;--accent2:#6ba7ff;--warn:#ffcb67;--danger:#ff7d8f;--shadow:0 24px 80px rgba(0,0,0,.35)
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 0,#10213d 0,transparent 35%),var(--bg);color:var(--text)}
+    a{color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;position:sticky;top:0;z-index:10;background:rgba(7,16,31,.76);backdrop-filter:blur(16px)}
+    .brand{font-weight:800;letter-spacing:-.03em}.navlinks{display:flex;gap:20px;align-items:center}.navlinks a{text-decoration:none;color:var(--muted);font-weight:650}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:12px;padding:13px 18px;font-weight:800;text-decoration:none;cursor:pointer}.btn.primary{background:var(--text);color:#09111e}.btn.ghost{border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.02)}
+    .hero{padding:84px 0 64px;display:grid;grid-template-columns:1.08fr .92fr;gap:54px;align-items:center}.eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;background:#143229;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.hero h1{font-size:clamp(44px,7vw,78px);line-height:.98;letter-spacing:-.055em;margin:20px 0}.hero p{font-size:20px;line-height:1.6;color:var(--muted);max-width:680px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.proof{display:flex;gap:24px;flex-wrap:wrap;margin-top:34px;color:var(--muted)}.proof b{color:var(--text);display:block;font-size:20px}
+    .hero-card{background:linear-gradient(145deg,#13243d,#0b1526);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-card:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(98,230,167,.12);filter:blur(30px);right:-100px;top:-90px}.mini-flow{display:grid;gap:14px;position:relative;z-index:1}.flow-row{display:flex;align-items:center;gap:14px;background:#0b1526;border:1px solid #20324f;border-radius:16px;padding:14px}.icon{width:42px;height:42px;border-radius:12px;background:#162945;display:grid;place-items:center;font-size:20px}.flow-row b{display:block}.flow-row span{color:var(--muted);font-size:14px}.arrow{text-align:center;color:var(--accent);font-size:24px;animation:bob 1.6s ease-in-out infinite}@keyframes bob{50%{transform:translateY(5px)}}
+    section{padding:84px 0}.section-head{max-width:740px;margin-bottom:42px}.section-head h2{font-size:clamp(34px,5vw,58px);line-height:1.05;letter-spacing:-.045em;margin:0 0 16px}.section-head p{font-size:18px;color:var(--muted);line-height:1.6}
+    .demo{display:grid;grid-template-columns:.86fr 1.14fr;gap:44px;align-items:center;margin:62px 0 100px}.demo.reverse{grid-template-columns:1.14fr .86fr}.demo.reverse .copy{order:2}.copy h3{font-size:36px;letter-spacing:-.035em;margin:0 0 14px}.copy p{color:var(--muted);font-size:18px;line-height:1.65}.checks{display:grid;gap:12px;margin:24px 0}.check{display:flex;gap:10px;color:#dfe8f4}.check::before{content:"✓";color:var(--accent);font-weight:900}.demo-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .stage{min-height:560px;background:linear-gradient(160deg,#0b1729,#111f36);border:1px solid var(--line);border-radius:30px;display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}.stage:before{content:"";position:absolute;inset:auto -80px -120px auto;width:360px;height:360px;border-radius:50%;background:rgba(107,167,255,.13);filter:blur(20px)}
+    .phone{width:280px;height:560px;border:10px solid #02060c;border-radius:42px;background:#f5f7fb;color:#101725;box-shadow:0 30px 80px rgba(0,0,0,.55);overflow:hidden;position:relative;transform:rotate(-2deg)}.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:105px;height:25px;border-radius:16px;background:#02060c;z-index:2}.screen{height:100%;padding:50px 16px 18px;background:linear-gradient(#f8fafc,#eef3f8)}.app-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.app-title{font-weight:900;font-size:17px}.pill{font-size:11px;background:#dff7ec;color:#11623f;border-radius:999px;padding:5px 8px;font-weight:800}.app-card{background:#fff;border:1px solid #dce5ef;border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 6px 16px rgba(38,60,88,.07)}.app-card small{color:#6e7e91}.scan-box{height:185px;background:#101a27;border-radius:18px;position:relative;overflow:hidden;display:grid;place-items:center;color:#fff}.barcode{width:150px;height:68px;background:repeating-linear-gradient(90deg,#fff 0 3px,transparent 3px 6px,#fff 6px 8px,transparent 8px 12px)}.scanline{position:absolute;left:16px;right:16px;height:2px;background:#61e7a7;box-shadow:0 0 16px #61e7a7;top:24px;animation:scan 2.2s ease-in-out infinite}@keyframes scan{50%{top:156px}}.stock-row{display:flex;justify-content:space-between;align-items:center}.stock-num{font-size:26px;font-weight:900}.delta{color:#0c8c57;font-weight:900}.toast{position:absolute;left:18px;right:18px;bottom:20px;background:#0d1b2d;color:#fff;border-radius:14px;padding:12px 14px;font-weight:800;opacity:0;transform:translateY(18px);transition:.35s}.toast.show{opacity:1;transform:translateY(0)}
+    .work-fields{display:grid;gap:10px}.field{background:#fff;border:1px solid #dce5ef;border-radius:12px;padding:11px 12px}.field label{display:block;font-size:11px;color:#738297;margin-bottom:4px}.field strong{font-size:14px}.signature{height:85px;background:#fff;border:1px dashed #aeb9c6;border-radius:12px;position:relative;overflow:hidden}.signature svg{position:absolute;inset:0;width:100%;height:100%}.signpath{stroke:#23334b;stroke-width:3;fill:none;stroke-dasharray:260;stroke-dashoffset:260;animation:sign 4s ease-in-out infinite}@keyframes sign{0%,30%{stroke-dashoffset:260}65%,100%{stroke-dashoffset:0}}.sent{display:flex;align-items:center;gap:8px;color:#0c8c57;font-weight:850;font-size:13px}.dot{width:8px;height:8px;border-radius:50%;background:#22c77b;box-shadow:0 0 0 7px rgba(34,199,123,.12)}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}.step b{font-size:20px}.step p{color:var(--muted);line-height:1.55}.cta{background:linear-gradient(140deg,#eef4fb,#dce9f6);color:#0b1422;border-radius:30px;padding:48px;display:flex;justify-content:space-between;gap:28px;align-items:center}.cta h2{font-size:42px;letter-spacing:-.04em;margin:0 0 10px}.cta p{color:#4f6074;margin:0;max-width:620px}.cta .btn{background:#0b1422;color:#fff}.footer{padding:34px 0 50px;color:var(--muted);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){.hero,.demo,.demo.reverse{grid-template-columns:1fr}.demo.reverse .copy{order:0}.hero{padding-top:48px}.stage{min-height:500px}.steps{grid-template-columns:1fr}.cta{display:block}.cta .btn{margin-top:22px}.navlinks a:not(.btn){display:none}}
+    @media(max-width:520px){.phone{transform:scale(.88) rotate(-1deg)}.stage{min-height:510px}.hero h1{font-size:48px}.cta{padding:30px}.cta h2{font-size:34px}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <div class="brand">FLOW<span style="color:var(--accent)">.</span></div>
+    <nav class="navlinks">
+      <a href="#voorraad">Voorraad</a><a href="#werkbon">Werkbonnen</a><a href="#contact" class="btn ghost">Demo aanvragen</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="wrap hero">
+      <div>
+        <span class="eyebrow">Automatisering voor vakbedrijven</span>
+        <h1>Minder papierwerk.<br>Meer werk gedaan.</h1>
+        <p>Digitale tools die dagelijkse administratie uit handen nemen. Van voorraad scannen tot werkbonnen afronden — direct vanaf de telefoon.</p>
+        <div class="actions"><a class="btn primary" href="#voorraad">Bekijk hoe het werkt</a><a class="btn ghost" href="#contact">Plan een demo</a></div>
+        <div class="proof"><div><b>1 app</b>op telefoon en kantoor</div><div><b>Realtime</b>direct bijgewerkt</div><div><b>Minder fouten</b>geen losse briefjes</div></div>
+      </div>
+      <div class="hero-card">
+        <div class="mini-flow">
+          <div class="flow-row"><div class="icon">📱</div><div><b>Medewerker doet één handeling</b><span>Scannen, invullen of tekenen</span></div></div>
+          <div class="arrow">↓</div>
+          <div class="flow-row"><div class="icon">⚙️</div><div><b>De administratie gebeurt automatisch</b><span>Voorraad, project en registratie worden bijgewerkt</span></div></div>
+          <div class="arrow">↓</div>
+          <div class="flow-row"><div class="icon">✅</div><div><b>Kantoor ziet het direct</b><span>Geen WhatsApp-lijstjes of papier meer overtypen</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="voorraad">
+      <div class="section-head"><h2>Voorraad die zichzelf bijhoudt.</h2><p>Een medewerker scant een product. De voorraad wordt direct aangepast en kantoor ziet wat bijna op is.</p></div>
+      <div class="demo">
+        <div class="copy">
+          <h3>Scan. Pak. Klaar.</h3>
+          <p>Geen Excel-lijsten of handmatig tellen tijdens de werkdag. De mobiele scanner registreert wat wordt meegenomen.</p>
+          <div class="checks"><div class="check">Barcode scannen met telefoon</div><div class="check">Voorraad direct verlagen</div><div class="check">Lage voorraad automatisch zichtbaar</div><div class="check">Overzicht voor kantoor</div></div>
+          <div class="demo-controls"><button class="btn primary" id="runStock">Speel animatie af</button></div>
+        </div>
+        <div class="stage">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+              <div class="app-top"><div class="app-title">Voorraad</div><div class="pill">LIVE</div></div>
+              <div class="scan-box"><div class="scanline"></div><div class="barcode"></div></div>
+              <div class="app-card"><small>Product</small><div style="font-weight:900;margin-top:4px">Lakverf zijdeglans 1L</div></div>
+              <div class="app-card stock-row"><div><small>Voorraad</small><div class="stock-num" id="stockNum">8</div></div><div class="delta" id="stockDelta">−1 gescand</div></div>
+              <div class="toast" id="stockToast">✓ Voorraad bijgewerkt: 7 stuks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="werkbon">
+      <div class="section-head"><h2>Werkbon klaar voordat je wegrijdt.</h2><p>Uren, materiaal en handtekening worden op locatie vastgelegd. De bon staat daarna direct digitaal klaar.</p></div>
+      <div class="demo reverse">
+        <div class="copy">
+          <h3>Van klus naar administratie in één minuut.</h3>
+          <p>De medewerker vult alleen in wat nodig is. Geen papieren bon die later nog moet worden overgetypt.</p>
+          <div class="checks"><div class="check">Project en adres vooraf ingevuld</div><div class="check">Uren en materiaal registreren</div><div class="check">Klant tekent op telefoon</div><div class="check">Digitale werkbon direct beschikbaar</div></div>
+          <div class="demo-controls"><button class="btn primary" id="runWork">Speel animatie af</button></div>
+        </div>
+        <div class="stage">
+          <div class="phone" style="transform:rotate(2deg)">
+            <div class="notch"></div>
+            <div class="screen">
+              <div class="app-top"><div class="app-title">Werkbon</div><div class="pill">PROJECT</div></div>
+              <div class="work-fields">
+                <div class="field"><label>Locatie</label><strong>Voorbeeldstraat 24</strong></div>
+                <div class="field"><label>Werkzaamheden</label><strong>Onderhoud & herstel</strong></div>
+                <div class="field"><label>Uren</label><strong id="hours">0,0 uur</strong></div>
+                <div class="field"><label>Materiaal</label><strong id="materials">Nog niet ingevuld</strong></div>
+                <div><div style="font-size:11px;color:#738297;margin-bottom:5px">Handtekening klant</div><div class="signature"><svg viewBox="0 0 240 85"><path class="signpath" d="M15 58 C45 16,55 70,83 42 S120 48,138 34 S167 61,221 32" /></svg></div></div>
+                <div class="app-card sent" id="sentState"><span class="dot"></span> Werkbon digitaal opgeslagen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head"><h2>Zo simpel moet automatisering voelen.</h2><p>Geen ingewikkeld softwareproject. Eerst kijken welk dagelijks werk tijd kost, daarna precies dát automatiseren.</p></div>
+      <div class="steps"><div class="step"><b>1. Bekijken</b><p>We brengen de handelingen in kaart die iedere dag opnieuw tijd kosten.</p></div><div class="step"><b>2. Automatiseren</b><p>We maken een eenvoudige mobiele werkwijze die aansluit op hoe medewerkers al werken.</p></div><div class="step"><b>3. Besparen</b><p>Minder dubbel invoeren, minder fouten en direct overzicht voor kantoor.</p></div></div>
+    </section>
+
+    <section class="wrap" id="contact">
+      <div class="cta"><div><h2>Benieuwd wat er bij jouw bedrijf kan?</h2><p>Laat in een korte demo zien welke administratie je nu nog handmatig doet. Daarna is snel duidelijk wat zinvol te automatiseren is.</p></div><a class="btn" href="mailto:demo@example.nl?subject=Demo%20automatisering">Demo aanvragen</a></div>
+    </section>
+  </main>
+
+  <footer class="wrap footer"><div>© <span id="year"></span> FLOW</div><div>Demo-website · conceptversie</div></footer>
+
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+    const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+    async function stockDemo(){const n=document.getElementById('stockNum'),d=document.getElementById('stockDelta'),t=document.getElementById('stockToast');n.textContent='8';d.style.opacity='.2';t.classList.remove('show');await sleep(700);n.textContent='7';d.style.opacity='1';t.classList.add('show');await sleep(2200);t.classList.remove('show')}
+    async function workDemo(){const h=document.getElementById('hours'),m=document.getElementById('materials'),s=document.getElementById('sentState');h.textContent='0,0 uur';m.textContent='Nog niet ingevuld';s.style.opacity='.15';await sleep(600);h.textContent='7,5 uur';await sleep(650);m.textContent='Kit 2× · Lak 1×';await sleep(1500);s.style.opacity='1'}
+    document.getElementById('runStock').addEventListener('click',stockDemo);document.getElementById('runWork').addEventListener('click',workDemo);
+    setTimeout(stockDemo,900);setTimeout(workDemo,1800);
+  </script>
+</body>
+</html>
