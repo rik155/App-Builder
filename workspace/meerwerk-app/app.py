@@ -2,7 +2,7 @@ import os, uuid, base64
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
-from fastapi import FastAPI, Request, Form, UploadFile, File
+from fastapi import FastAPI, Request, Form, UploadFile, File, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -26,7 +26,7 @@ templates=Jinja2Templates(directory=BASE/'templates')
 def get_one(i):
  with engine.begin() as c:
   row=c.execute(text('SELECT * FROM meerwerk WHERE id=:i'),{'i':i}).mappings().first()
-  photos=c.execute(text('SELECT * FROM photos WHERE meerwerk_id=:i'),{'i':i}).mappings().all()
+  photos=c.execute(text('SELECT * FROM photos WHERE meerwerk_id=:i ORDER BY id'),{'i':i}).mappings().all()
  return row,photos
 
 @app.get('/',response_class=HTMLResponse)
@@ -37,11 +37,13 @@ def home(request:Request):
 def new(request:Request): return templates.TemplateResponse('new.html',{'request':request})
 @app.post('/nieuw')
 async def save(customer_name:str=Form(...),address:str=Form(...),phone:str=Form(...),email:str=Form(...),description:str=Form(...),price:float=Form(...),vat_included:str=Form('1'),signature:str=Form(...),photos:list[UploadFile]=File(default=[])):
+ valid_photos=[f for f in photos if f.filename]
+ if len(valid_photos)>5:
+  raise HTTPException(400,'Je kunt maximaal 5 foto\'s toevoegen aan een meerwerkbon.')
  with engine.begin() as c:
   r=c.execute(text('INSERT INTO meerwerk(created,customer_name,address,phone,email,description,price,vat_included,signature) VALUES(:d,:n,:a,:p,:e,:w,:pr,:v,:s)'),{'d':datetime.now().isoformat(timespec='minutes'),'n':customer_name,'a':address,'p':phone,'e':email,'w':description,'pr':price,'v':1 if vat_included=='1' else 0,'s':signature})
   i=r.lastrowid
-  for f in photos:
-   if not f.filename: continue
+  for f in valid_photos:
    ext=Path(f.filename).suffix.lower() or '.jpg'; name=f'{i}_{uuid.uuid4().hex}{ext}'; (UP/name).write_bytes(await f.read())
    c.execute(text('INSERT INTO photos(meerwerk_id,filename) VALUES(:i,:f)'),{'i':i,'f':name})
  return RedirectResponse(f'/meerwerk/{i}',303)
@@ -58,7 +60,7 @@ def pdf(i:int):
  if photos:
   story.append(Paragraph('Foto’s van het meerwerk',styles['Heading2']))
   imgs=[]
-  for p in photos:
+  for p in photos[:5]:
    try:
     im=Image(str(UP/p['filename']),width=70*mm,height=52*mm); imgs.append(im)
    except: pass
