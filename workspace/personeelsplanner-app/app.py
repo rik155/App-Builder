@@ -1,4 +1,4 @@
-from datetime import date,datetime,timedelta
+from datetime import date,timedelta
 from pathlib import Path
 from fastapi import FastAPI,Request,Form
 from fastapi.responses import HTMLResponse,RedirectResponse
@@ -15,7 +15,9 @@ def days(start=None):
 def employees():
  with engine.begin() as c:return c.execute(text('SELECT * FROM employees WHERE active=1 ORDER BY name')).mappings().all()
 def jobs_for(ds):
- with engine.begin() as c:return c.execute(text('SELECT j.*,e.name employee FROM jobs j JOIN employees e ON e.id=j.employee_id WHERE work_date IN :ds ORDER BY work_date,start_time'),{'ds':tuple(x.isoformat() for x in ds)}).mappings().all()
+ start=ds[0].isoformat(); end=ds[-1].isoformat()
+ with engine.begin() as c:
+  return c.execute(text('SELECT j.*,e.name employee FROM jobs j JOIN employees e ON e.id=j.employee_id WHERE j.work_date BETWEEN :start AND :end ORDER BY j.work_date,j.start_time'),{'start':start,'end':end}).mappings().all()
 @app.get('/',response_class=HTMLResponse)
 def home(request:Request,week:str=''):
  try:s=date.fromisoformat(week) if week else date.today()
